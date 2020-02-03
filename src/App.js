@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Route } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.css";
+import History from "./History";
+
+class App extends Component {
+  state = { removeWelcome: false };
+
+  ClickHistory = event => {
+    this.setState({ removeWelcome: true });
+  };
+
+  ClickHome = event => {
+    this.setState({ removeWelcome: false });
+  };
+
+  ShowWelcome = () => {
+    if (this.state.removeWelcome !== true) {
+      return <p>Welcome to Home</p>;
+    }
+  };
+
+  render() {
+    return (
+      <div>
+        <nav>
+          <NavLink to="/" className="home-comp-link" onClick={this.ClickHome}>
+            Home
+          </NavLink>
+          <NavLink
+            to="/our-history"
+            activeStyle={{
+              color: "red"
+            }}
+            onClick={this.ClickHistory}
+          >
+            History
+          </NavLink>
+        </nav>
+
+        {this.ShowWelcome()}
+
+        <Route exact path="/our-history" component={History} />
+      </div>
+    );
+  }
 }
 
 export default App;
